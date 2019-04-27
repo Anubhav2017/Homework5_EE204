@@ -1,0 +1,44 @@
+*Ids-Vds and Ids-Vgs of a n-MOSFET
+*input ports 5 and 6. Output port 
+.include tsmc.txt
+
+
+VDD 4 0 DC 5v
+Mb1 1 12 0 0 CMOSN W=10u
+Vb1 12 0 DC 1V
+*Vb2 7 0 DC 2V
+*vb3 13 0 DC 2.2V
+
+M1 2 5 1 0 CMOSN W=100u 
+M2 3 6 1 0 CMOSN W=100u
+M3 8 8 2 0 CMOSN W=100u
+M4 9 8 3 0 CMOSN W=100u
+M5 8 8 10 4 CMOSP W=10u 
+M6 9 8 11 4 CMOSP W=10u 
+M7 10 10 4 4 CMOSP W=100u 
+M8 11 10 4 4 CMOSP W=100u 
+
+
+
+
+v1 5 0 sin(2 0.5u 1000 0 0)
+v2 6 0 sin(2 -0.5u 1000 0 0)
+
+*defining the run-time control functions
+*.dc (v1) 0 5 0.05 
+*.dc v2 0 6 0.05
+*.dc VDD 0 10 0.05
+.tran 1u 5m
+.control
+
+run
+*plotting input and output voltages
+
+plot v(9) 
+plot v(8)
+
+*plot i(vm)
+*plot deriv(v(8))/deriv(v(1))
+*plot I(vgg) vs v(1)
+.endc
+.end
